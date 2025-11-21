@@ -1,12 +1,12 @@
 const bioConfig = {
   handle: "tripleacesvc",
-  bio: "Serve, Spike, Inspire — Nepali youth rising in London, Ontario",
+  bio: "Serve, Spike, Inspire — Nepali Youth Rising in London, Ontario",
   socials: [
     {
       id: "instagram",
       label: "Instagram",
       url: "https://www.instagram.com/tripleacesvc",
-      icon: "M8 3c2-2 6-2 8 0s2 6 0 8l-8 8-8-8c-2-2-2-6 0-8s6-2 8 0z",
+      icon: "M7 2h6a5 5 0 015 5v6a5 5 0 01-5 5H7a5 5 0 01-5-5V7a5 5 0 015-5z M10 7.25a2.75 2.75 0 100 5.5 2.75 2.75 0 000-5.5z M16 5.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0z",
     },
     {
       id: "facebook",
@@ -18,17 +18,15 @@ const bioConfig = {
   links: [
     {
       id: "facebook-card",
-      label: "Facebook Page",
-      description: "See match photos, schedules, and club news.",
+      type: "featured",
+      label: "Facebook",
       url: "https://www.facebook.com/tripleacesvolleyballclub",
-      initial: "FB",
     },
     {
       id: "instagram-card",
+      type: "small",
       label: "Instagram",
-      description: "Highlights, reels, and behind-the-scenes moments.",
       url: "https://www.instagram.com/tripleacesvc",
-      initial: "IG",
     },
   ],
 };
@@ -48,29 +46,116 @@ function createIcon(pathD) {
   return svg;
 }
 
+function createLogoSVG(size = 84) {
+  const svgNS = "http://www.w3.org/2000/svg";
+  const svg = document.createElementNS(svgNS, "svg");
+  svg.setAttribute("viewBox", "0 0 200 200");
+  svg.setAttribute("width", size);
+  svg.setAttribute("height", size);
+
+  const shield = document.createElementNS(svgNS, "path");
+  shield.setAttribute(
+    "d",
+    "M100 12c26 0 46 12 46 12v66c0 37-46 72-46 72s-46-35-46-72V24s20-12 46-12z"
+  );
+  shield.setAttribute("fill", "#fff");
+  shield.setAttribute("stroke", "#b91c1c");
+  shield.setAttribute("stroke-width", "4");
+
+  const ball = document.createElementNS(svgNS, "circle");
+  ball.setAttribute("cx", "100");
+  ball.setAttribute("cy", "50");
+  ball.setAttribute("r", "20");
+  ball.setAttribute("fill", "#b91c1c");
+  ball.setAttribute("stroke", "#7c3aed");
+  ball.setAttribute("stroke-width", "3");
+
+  const text = document.createElementNS(svgNS, "text");
+  text.setAttribute("x", "50%");
+  text.setAttribute("y", "150");
+  text.setAttribute("text-anchor", "middle");
+  text.setAttribute("font-size", "18");
+  text.setAttribute("fill", "#0f172a");
+  text.setAttribute("font-family", "Inter, system-ui, sans-serif");
+  text.setAttribute("font-weight", "700");
+  text.textContent = "TRIPLE ACES V.C.";
+
+  svg.appendChild(shield);
+  svg.appendChild(ball);
+  svg.appendChild(text);
+  return svg;
+}
+
 function renderProfile() {
-  document.getElementById("handle").textContent = `@${bioConfig.handle}`;
+  document.getElementById("handle").textContent = bioConfig.handle;
   document.getElementById("bio").textContent = bioConfig.bio;
 
+  // place logo inside avatar
+  const avatar = document.getElementById("avatar");
+  avatar.innerHTML = "";
+  avatar.appendChild(createLogoSVG(90));
+
   const actions = document.getElementById("social-actions");
+  actions.innerHTML = "";
   bioConfig.socials.forEach((social) => {
-    const button = document.createElement("a");
-    button.className = "icon-button";
-    button.href = social.url;
-    button.target = "_blank";
-    button.rel = "noreferrer";
-    button.title = social.label;
-    button.appendChild(createIcon(social.icon));
-    actions.appendChild(button);
+    const a = document.createElement("a");
+    a.className = "icon-button";
+    a.href = social.url;
+    a.target = "_blank";
+    a.rel = "noreferrer";
+    a.title = social.label;
+    a.appendChild(createIcon(social.icon));
+    actions.appendChild(a);
   });
 }
 
 function renderLinks() {
   const list = document.getElementById("link-list");
 
+  list.innerHTML = "";
+
   bioConfig.links.forEach((link) => {
     const item = document.createElement("li");
 
+    if (link.type === "featured") {
+      const card = document.createElement("a");
+      card.className = "link-card featured";
+      card.href = link.url;
+      card.target = "_blank";
+      card.rel = "noreferrer";
+
+      const imgWrap = document.createElement("div");
+      imgWrap.className = "card-image";
+      imgWrap.appendChild(createLogoSVG(120));
+
+      const label = document.createElement("p");
+      label.className = "link-label";
+      label.textContent = link.label;
+
+      const kebab = document.createElement("button");
+      kebab.className = "kebab";
+      kebab.title = "More";
+      kebab.textContent = "⋮";
+      kebab.addEventListener("click", (e) => {
+        e.preventDefault();
+        window.open(link.url, "_blank");
+      });
+
+      card.appendChild(imgWrap);
+      const metaRow = document.createElement("div");
+      metaRow.style.display = "flex";
+      metaRow.style.justifyContent = "space-between";
+      metaRow.style.alignItems = "center";
+      metaRow.appendChild(label);
+      metaRow.appendChild(kebab);
+      card.appendChild(metaRow);
+
+      item.appendChild(card);
+      list.appendChild(item);
+      return;
+    }
+
+    // small card
     const anchor = document.createElement("a");
     anchor.className = "link-card";
     anchor.href = link.url;
@@ -78,8 +163,14 @@ function renderLinks() {
     anchor.rel = "noreferrer";
 
     const badge = document.createElement("div");
-    badge.className = "link-avatar";
-    badge.textContent = link.initial;
+    badge.className = "small-icon";
+    // render instagram icon in badge for instagram entry
+    if (link.id === "instagram-card") {
+      const ic = createIcon(bioConfig.socials.find((s) => s.id === "instagram").icon);
+      ic.style.width = "20px";
+      ic.style.height = "20px";
+      badge.appendChild(ic);
+    }
 
     const meta = document.createElement("div");
     meta.className = "link-meta";
@@ -88,12 +179,7 @@ function renderLinks() {
     title.className = "link-label";
     title.textContent = link.label;
 
-    const desc = document.createElement("p");
-    desc.className = "link-desc";
-    desc.textContent = link.description;
-
     meta.appendChild(title);
-    meta.appendChild(desc);
 
     const arrow = document.createElement("span");
     arrow.className = "link-arrow";

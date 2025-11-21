@@ -21,39 +21,44 @@ body {
   min-height: 100vh;
   font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
-  background: linear-gradient(var(--bg-top), var(--bg-bottom));
+  background: linear-gradient(180deg, #eef7fb 0%, #f7fbfd 45%, #ffffff 100%);
   color: var(--text);
 }
 
 .page {
-  max-width: 520px;
-  margin: 0 auto;
-  padding: 32px 24px 40px;
+  max-width: 420px;
+  margin: 24px auto;
+  padding: 20px 18px 40px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 18px;
 }
+
 
 .profile {
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 18px;
-  display: grid;
-  grid-template-columns: auto 1fr auto;
+  border-radius: 18px;
+  padding: 26px 18px 20px;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
   box-shadow: var(--shadow-soft);
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(6px);
 }
 
 .avatar {
-  width: 64px;
-  height: 64px;
+  width: 96px;
+  height: 96px;
   border-radius: 50%;
-  background: var(--accent);
+  background: linear-gradient(135deg, #e6f6fb, #f3f7ff);
   position: relative;
-  overflow: hidden;
+  overflow: visible;
+  display: grid;
+  place-items: center;
+  margin-top: -48px;
+  box-shadow: 0 8px 18px rgba(16, 24, 40, 0.08);
 }
 
 .avatar::after {
@@ -66,22 +71,26 @@ body {
   opacity: 0.9;
 }
 
-.profile-text .handle {
+.title {
   font-weight: 700;
-  margin: 0 0 6px;
+  margin: 0;
+  font-size: 20px;
   letter-spacing: 0.2px;
 }
 
-.profile-text .bio {
-  margin: 0;
+.subtitle {
+  margin: 6px 0 0;
   color: var(--muted);
+  font-size: 13px;
+  text-align: center;
   line-height: 1.4;
 }
 
 .actions {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
+  margin-top: 10px;
 }
 
 .icon-button {
@@ -188,26 +197,54 @@ body {
 
 @media (max-width: 520px) {
   .profile {
-    grid-template-columns: 1fr;
-    text-align: center;
+    padding: 20px 14px 18px;
   }
 
-  .profile-text {
-    display: grid;
-    gap: 4px;
-    justify-items: center;
-  }
+  .title { font-size: 18px; }
 
-  .actions {
-    justify-content: center;
-  }
+  .link-card { grid-template-columns: 1fr; text-align: center; }
+  .link-avatar { margin: 0 auto; }
+}
 
-  .link-card {
-    grid-template-columns: 1fr;
-    text-align: center;
-  }
+/* Featured (large image) card style */
+.link-card.featured {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 10px;
+}
 
-  .link-avatar {
-    margin: 0 auto;
-  }
+.link-card.featured .card-image {
+  height: 140px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #f1fafc, #eef6fb);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.link-card.featured .link-label {
+  margin: 0;
+  text-align: left;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.kebab {
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  color: #94a3b8;
+  cursor: pointer;
+}
+
+.small-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: linear-gradient(135deg,#7c3aed,#22d3ee);
+  display: grid;
+  place-items: center;
+  color: white;
 }
