@@ -1,16 +1,15 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap");
 
 :root {
-  --bg-top: #e1e8ee;
-  --bg-bottom: #f5f8fa;
-  --card: rgba(255, 255, 255, 0.9);
+  --bg-top: #eef2ff;
+  --bg-bottom: #ffffff;
+  --card: rgba(255, 255, 255, 0.8);
   --text: #0f172a;
   --muted: #475569;
-  --accent: linear-gradient(160deg, #dc2626, #9f1239);
-  --shadow-soft: 0 12px 40px rgba(15, 23, 42, 0.08);
+  --accent: linear-gradient(135deg, #7c3aed, #22d3ee);
+  --shadow-soft: 0 10px 30px rgba(15, 23, 42, 0.08);
   --radius: 18px;
-  --border: #d8e1e8;
-  --link-bg: #dce3e9;
+  --border: #e2e8f0;
 }
 
 * {
@@ -24,13 +23,12 @@ body {
     sans-serif;
   background: linear-gradient(var(--bg-top), var(--bg-bottom));
   color: var(--text);
-  display: flex;
-  justify-content: center;
 }
 
 .page {
-  width: min(420px, 100%);
-  padding: 32px 20px 44px;
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 32px 24px 40px;
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -40,50 +38,55 @@ body {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 22px 20px;
+  padding: 18px;
   display: grid;
-  grid-template-columns: 1fr;
-  justify-items: center;
-  gap: 12px;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 14px;
   box-shadow: var(--shadow-soft);
   backdrop-filter: blur(8px);
 }
 
 .avatar {
-  width: 120px;
-  height: 120px;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
   background: var(--accent);
   position: relative;
   overflow: hidden;
-  border: 6px solid #f8fafc;
-  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.16);
+}
+
+.avatar::after {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border-radius: 12px;
+  background: #f8fafc;
+  mask: radial-gradient(circle at center, transparent 38%, black 40%);
+  opacity: 0.9;
 }
 
 .profile-text .handle {
   font-weight: 700;
-  margin: 0;
+  margin: 0 0 6px;
   letter-spacing: 0.2px;
-  font-size: 22px;
 }
 
 .profile-text .bio {
   margin: 0;
   color: var(--muted);
-  line-height: 1.5;
-  text-align: center;
+  line-height: 1.4;
 }
 
 .actions {
   display: flex;
   align-items: center;
   gap: 10px;
-  justify-content: center;
 }
 
 .icon-button {
-  width: 48px;
-  height: 48px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
   border: 1px solid var(--border);
   background: #fff;
@@ -95,8 +98,8 @@ body {
 }
 
 .icon {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
 }
 
 .icon-button:hover {
@@ -121,16 +124,19 @@ body {
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
 }
 
 .link-card {
-  border-radius: 16px;
+  border-radius: var(--radius);
   border: 1px solid var(--border);
-  background: var(--link-bg);
+  background: #fff;
   box-shadow: var(--shadow-soft);
-  overflow: hidden;
-  display: block;
+  padding: 14px 16px;
+  display: grid;
+  grid-template-columns: 48px 1fr auto;
+  align-items: center;
+  gap: 12px;
   text-decoration: none;
   color: inherit;
   transition: transform 120ms ease, box-shadow 120ms ease;
@@ -145,20 +151,23 @@ body {
   transform: translateY(0);
 }
 
-.link-preview {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
-  display: block;
-  background: #e2e8f0;
+.link-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: var(--accent);
+  display: grid;
+  place-items: center;
+  color: white;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  font-size: 13px;
 }
 
-.link-footer {
-  padding: 14px 16px;
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: center;
-  gap: 10px;
+.link-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .link-label {
@@ -166,23 +175,15 @@ body {
   font-weight: 700;
 }
 
-.link-pill {
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
-  background: var(--accent);
-  display: grid;
-  place-items: center;
-  color: white;
-  font-weight: 700;
-  letter-spacing: 0.4px;
-  font-size: 12px;
+.link-desc {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
 }
 
 .link-arrow {
-  color: #475569;
+  color: #94a3b8;
   font-weight: 700;
-  font-size: 18px;
 }
 
 @media (max-width: 520px) {
@@ -199,5 +200,14 @@ body {
 
   .actions {
     justify-content: center;
+  }
+
+  .link-card {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .link-avatar {
+    margin: 0 auto;
   }
 }
